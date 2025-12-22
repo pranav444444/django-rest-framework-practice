@@ -1,45 +1,45 @@
-from django.shortcuts import render,get_object_or_404
-from django.http import JsonResponse
+# from django.shortcuts import render,get_object_or_404
+# from django.http import JsonResponse
 
-from students.views import students
+# from students.views import students
 
-from students.models import Student
+# from students.models import Student
 
-from .serializers import StudentSerializer, EmployeeSerializer
-from rest_framework.response import Response
+# from .serializers import StudentSerializer, EmployeeSerializer
+# from rest_framework.response import Response
 
-from rest_framework import status
+# from rest_framework import status
 
-from rest_framework.decorators import api_view #decorator to specify allowed HTTP methods for a view function
+# from rest_framework.decorators import api_view #decorator to specify allowed HTTP methods for a view function
 
-from rest_framework.views import APIView #base class for creating class-based views in DRF
-# Create your views here.
+# from rest_framework.views import APIView #base class for creating class-based views in DRF
+# # Create your views here.
 
-from employees.models import Employee
+# from employees.models import Employee
 
-from django.http import Http404
+# from django.http import Http404
 
-from rest_framework import mixins, generics,viewsets
+# from rest_framework import mixins, generics,viewsets
 
-from blogs.models import Blog,Comment
+# from blogs.models import Blog,Comment
 
-from blogs.serializers import BlogSerializer,CommentSerializer
+# from blogs.serializers import BlogSerializer,CommentSerializer
 
-from .paginations import CustomPagination
+# from .paginations import CustomPagination
 
-@api_view(['GET','POST']) #this view only allows GET requests, POST requests
-def studentsView(request):
-  if request.method=='GET':#get all the data from Student model and return as JSON response
-    students=Student.objects.all()
-    serializer=StudentSerializer(students,many=True) #many=True indicates that we are serializing a queryset containing multiple Student instances
-    return Response(serializer.data,status=status.HTTP_200_OK) #status.HTTP_200_OK indicates that the request was successful and the server is returning the requested data
-  elif request.method=='POST': #create a new student record in the database
-    serializer=StudentSerializer(data=request.data) #request.data contains the incoming data from the client that we want to deserialize and validate
-    if serializer.is_valid(): #check if the incoming data is valid according to the serializer's validation rules
-      serializer.save() #save the new Student instance to the database
-      return Response(serializer.data,status=status.HTTP_201_CREATED) #status.HTTP_201_CREATED indicates that a new resource has been successfully created
-    print(serializer.errors)
-    return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST) #if the data is not valid return the validation errors with status code 400 Bad Request
+# @api_view(['GET','POST']) #this view only allows GET requests, POST requests
+# def studentsView(request):
+#   if request.method=='GET':#get all the data from Student model and return as JSON response
+#     students=Student.objects.all()
+#     serializer=StudentSerializer(students,many=True) #many=True indicates that we are serializing a queryset containing multiple Student instances
+#     return Response(serializer.data,status=status.HTTP_200_OK) #status.HTTP_200_OK indicates that the request was successful and the server is returning the requested data
+#   elif request.method=='POST': #create a new student record in the database
+#     serializer=StudentSerializer(data=request.data) #request.data contains the incoming data from the client that we want to deserialize and validate
+#     if serializer.is_valid(): #check if the incoming data is valid according to the serializer's validation rules
+#       serializer.save() #save the new Student instance to the database
+#       return Response(serializer.data,status=status.HTTP_201_CREATED) #status.HTTP_201_CREATED indicates that a new resource has been successfully created
+#     print(serializer.errors)
+#     return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST) #if the data is not valid return the validation errors with status code 400 Bad Request
 
     
     
@@ -55,28 +55,28 @@ def studentsView(request):
   #Manual Serialization: Converting complex data types like querysets to native Python data types like lists and dicts that can then be easily rendered into JSON format
   
   
-@api_view(['GET','PUT','DELETE'])#this view allows GET and PUT requests and DELETE requests
+# @api_view(['GET','PUT','DELETE'])#this view allows GET and PUT requests and DELETE requests
   
-def studentDetailView(request,pk):
-    try:
-      student=Student.objects.get(pk=pk) #fetch a single Student instance based on the provided primary key (pk)
-    except Student.DoesNotExist:
-      return Response({'error':'Student not found'},status=status.HTTP_404_NOT_FOUND) #if the Student with the given pk does not exist return 404 Not Found response
+# def studentDetailView(request,pk):
+#     try:
+#       student=Student.objects.get(pk=pk) #fetch a single Student instance based on the provided primary key (pk)
+#     except Student.DoesNotExist:
+#       return Response({'error':'Student not found'},status=status.HTTP_404_NOT_FOUND) #if the Student with the given pk does not exist return 404 Not Found response
     
-    if request.method=='GET': #retrieve the details of the specified student
-      serializer=StudentSerializer(student) #serialize the Student instance
-      return Response(serializer.data,status=status.HTTP_200_OK) #return the serialized data with status code 200 OK
-    elif request.method=='PUT': #update the details of the specified student
-      serializer=StudentSerializer(student,data=request.data) #deserialize the incoming data and update the existing Student instance
-      if serializer.is_valid(): #check if the incoming data is valid
-        serializer.save() #save the updated Student instance to the database
-        return Response(serializer.data,status=status.HTTP_200_OK) #return the updated serialized data with status code 200 OK
-      else:
-        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST) #if the data is not valid return the validation errors with status code 400 Bad Request
+#     if request.method=='GET': #retrieve the details of the specified student
+#       serializer=StudentSerializer(student) #serialize the Student instance
+#       return Response(serializer.data,status=status.HTTP_200_OK) #return the serialized data with status code 200 OK
+#     elif request.method=='PUT': #update the details of the specified student
+#       serializer=StudentSerializer(student,data=request.data) #deserialize the incoming data and update the existing Student instance
+#       if serializer.is_valid(): #check if the incoming data is valid
+#         serializer.save() #save the updated Student instance to the database
+#         return Response(serializer.data,status=status.HTTP_200_OK) #return the updated serialized data with status code 200 OK
+#       else:
+#         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST) #if the data is not valid return the validation errors with status code 400 Bad Request
       
-    elif request.method=='DELETE': #delete the specified student
-        student.delete() #delete the Student instance from the database
-        return Response(status=status.HTTP_204_NO_CONTENT) #return status code 204 No Content indicating that the deletion was successful but there is no content to return
+#     elif request.method=='DELETE': #delete the specified student
+#         student.delete() #delete the Student instance from the database
+#         return Response(status=status.HTTP_204_NO_CONTENT) #return status code 204 No Content indicating that the deletion was successful but there is no content to return
       
       
       
@@ -186,34 +186,34 @@ def studentDetailView(request,pk):
 #     return Response(status=status.HTTP_204_NO_CONTENT)
   
   
-#Model ViewSets:
+# #Model ViewSets:
       
    
-class EmployeeViewset(viewsets.ModelViewSet):
-  queryset=Employee.objects.all()
-  serializer_class=EmployeeSerializer
-  pagination_class=CustomPagination
+# class EmployeeViewset(viewsets.ModelViewSet):
+#   queryset=Employee.objects.all()
+#   serializer_class=EmployeeSerializer
+#   pagination_class=CustomPagination
   
   
-# Blog View
+# # Blog View
 
-class BlogsView(generics.ListCreateAPIView):
-  queryset=Blog.objects.all()
-  serializer_class=BlogSerializer
+# class BlogsView(generics.ListCreateAPIView):
+#   queryset=Blog.objects.all()
+#   serializer_class=BlogSerializer
   
-class CommentsView(generics.ListCreateAPIView):
-  queryset=Comment.objects.all()
-  serializer_class=CommentSerializer
+# class CommentsView(generics.ListCreateAPIView):
+#   queryset=Comment.objects.all()
+#   serializer_class=CommentSerializer
       
-#primiary key based oprations class base views
+# #primiary key based oprations class base views
 
-class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
-  queryset=Blog.objects.all()
-  serializer_class=BlogSerializer
-  lookup_field='pk'
+# class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
+#   queryset=Blog.objects.all()
+#   serializer_class=BlogSerializer
+#   lookup_field='pk'
   
 
-class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-    lookup_field='pk'
+# class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Comment.objects.all()
+#     serializer_class = CommentSerializer
+#     lookup_field='pk'

@@ -3,9 +3,6 @@ from .import views
 from rest_framework.routers import DefaultRouter  
 
 
-router=DefaultRouter()
-router.register('employees',views.EmployeeViewset,basename='employee')
-
 
 
 urlpatterns = [
@@ -16,7 +13,7 @@ urlpatterns = [
     # #in views.py Employees is a class so we need to call as_view() method to convert the class into a view function that can be used in URL patterns
     # path('employees/<int:pk>/',views.EmployeeDetail.as_view()), #Class based view for Employee retrieve, update, delete
     # #In views.py EmployeeDetail is a class so we need to call as_view() method to convert the class into a view
-    path('',include(router.urls)),
+    # path('',include(router.urls)),
     
     
     path('blogs/',views.BlogsView.as_view()),

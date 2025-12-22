@@ -21,11 +21,15 @@ from django.urls import path,include
 urlpatterns = [
     path("admin/", admin.site.urls),
     #Web Application Endpoint
-    path('students/', include('students.urls')) ,
-    #when we write students/ it will go to students app and check for urls.py file
+    # path('students/', include('students.urls')) ,
+    # #when we write students/ it will go to students app and check for urls.py file
     
     
-    #API Endpoint
-    path('api/v1/', include('api.urls'))
+    # #API Endpoint
+    # path('api/v1/', include('api.urls'))
     #when we write api/v1/ it will go to api app and check for urls.py file
+    
+    path('api/v1/students/', include('students.urls')),
+    path('api/v1/', include('employees.urls')),
+    path('api/v1/', include('blogs.urls')),
 ]

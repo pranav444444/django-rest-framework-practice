@@ -1,8 +1,7 @@
 from django.urls import path
-from .import views
+from .views import studentsView, studentDetailView
 
 urlpatterns = [
-    path('',views.students),
+    path('', studentsView),
+    path('<int:pk>/', studentDetailView),
 ]
-
-# when we go to students/ it will call students function in views.py file
