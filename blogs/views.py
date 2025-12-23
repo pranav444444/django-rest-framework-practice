@@ -28,6 +28,8 @@ from blogs.serializers import BlogSerializer,CommentSerializer
 
 from .paginations import CustomPagination
 
+from rest_framework.filters import SearchFilter,OrderingFilter
+
 
 # Create your views here.
 
@@ -40,6 +42,9 @@ from .paginations import CustomPagination
 class BlogsView(generics.ListCreateAPIView):
   queryset=Blog.objects.all()
   serializer_class=BlogSerializer
+  filter_backends=[SearchFilter,OrderingFilter] #we cal slo use here [DjangoFilterBackend] along with [SearchFilter]
+  search_fields=['blog_title','blog_body'] #add blog model fields here
+  ordering_fields=['id']
   
 class CommentsView(generics.ListCreateAPIView):
   queryset=Comment.objects.all()

@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'employees',
     'blogs',
     'drf_yasg',
+    'django_filters',
+    'Orm_Tutorial',
+    
 ]
 
 MIDDLEWARE = [
@@ -79,11 +82,16 @@ WSGI_APPLICATION = "django_rest_main.wsgi.application"
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'django_rest_db', #name of database
+        'USER': 'postgres',
+        'PASSWORD': 'Pmpjmp@274',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+
 
 
 # Password validation
@@ -130,4 +138,14 @@ REST_FRAMEWORK={
     
     'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE':2,
+    #this is for global filter.
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
+    
+    'SEARCH_PARAM':'q', #if you want to mention letter 'q' in path while searching
+    
+    'ORDERING_PARAM':'order-by', #if you want to mention word 'order-by' in path while ordering
+    
+    
 }

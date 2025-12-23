@@ -20,6 +20,10 @@ from django.http import Http404
 
 from rest_framework import mixins, generics,viewsets
 
+from employees.filters import EmployeeFilter
+
+
+
 # from blogs.models import Blog,Comment
 
 # from blogs.serializers import BlogSerializer,CommentSerializer
@@ -138,7 +142,9 @@ from rest_framework import mixins, generics,viewsets
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+    filterset_class=EmployeeFilter
    
 
+  
   
   
