@@ -5,6 +5,17 @@ from rest_framework import status
 from .models import Student
 from .serializers import StudentSerializer
 
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
+from rest_framework.authentication import TokenAuthentication 
+
+@swagger_auto_schema(
+    method='post',
+    request_body=StudentSerializer,
+    
+)
+
 
 
 @api_view(['GET', 'POST'])

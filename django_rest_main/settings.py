@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'django_filters',
     'Orm_Tutorial',
+    'rest_framework.authtoken'
     
 ]
 
@@ -159,4 +160,23 @@ REST_FRAMEWORK={
     'ORDERING_PARAM':'order-by', #if you want to mention word 'order-by' in path while ordering
     
     
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    
+    
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Token': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'Enter: Token <your_token>',
+        }
+    },
 }

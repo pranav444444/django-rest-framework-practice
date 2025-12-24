@@ -23,6 +23,13 @@ from rest_framework import mixins, generics,viewsets
 from employees.filters import EmployeeFilter
 
 
+from rest_framework.authentication import TokenAuthentication #use this for generating token
+
+
+
+
+
+
 
 # from blogs.models import Blog,Comment
 
@@ -136,14 +143,20 @@ from employees.filters import EmployeeFilter
 #     return Response(status=status.HTTP_204_NO_CONTENT)
   
   
+
+
 #Model ViewSets:
+      
       
    
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
     filterset_class=EmployeeFilter
-   
+    
+    #we have already declarfed in settings.py globally 
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
 
   
   
